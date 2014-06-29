@@ -1,11 +1,13 @@
 //var http = require('http');
 var restify = require('restify');
+var ecstatic = require('ecstatic');
 
 var port = 8080;
 
 var server = restify.createServer();
 var io = require('socket.io').listen(server);
 
+server.pre(ecstatic({ root: __dirname + '/public'}));
 server.use(restify.queryParser());
 
 /*
