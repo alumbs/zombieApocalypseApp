@@ -1,0 +1,34 @@
+<html>
+<head>
+  <!-- Handlebars go in this file while javascript goes into the clientApp.js file-->
+  <meta charset="utf-8">
+  <title>Zombie Apocalypse Clientpage</title>
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css\style.css" />
+</head>
+<body>
+  <script type="text/x-handlebars">
+      <h1>Welcome to the client page - Zombie Apocalypse</h1>
+      {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" id="index">
+        <p>
+            <h3>All messages received from the Admin will show up in the placeholder below</h3>
+         </p>
+
+         <div id="messageBox">
+            {{adminMessage}}
+         </div>
+    </script>
+
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-1.1.2.js"></script>
+  <script src="js/libs/ember-1.5.1.js"></script>
+
+  <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+  <script src="js/clientApp.js"></script>
+  <!-- to activate the test runner, add the "?test" query string parameter -->
+  <script src="tests/runner.js"></script>
+</body>
+</html>

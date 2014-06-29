@@ -45,7 +45,7 @@ io.sockets.on('connection', function(sock){
 	{
 		sock.emit('news', { news: 'hello world' });
 		
-		sock.on('sendMessageToAllClient', function(data)
+		sock.on('sendMessageToAllClients', function(data)
 		{
 			console.log('received message for all clients');
 			io.sockets.emit('allClients', { news: data['message'] });

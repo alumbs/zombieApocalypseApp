@@ -7,3 +7,12 @@
 {
 	font-weight: bold;
 }
+
+#messageBox
+{
+    min-height: 50px;
+    font-size: 20px;
+    border: 5px solid #EE5757;
+    border-radius: 5px;
+    display: block;
+}

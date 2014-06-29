@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zombie Apocalypse Adminpage</title>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css\style.css" />
+</head>
+<body>
+
+    <script type="text/x-handlebars">
+        <h1>Welcome to the Admin page - Zombie Apocalypse</h1>
+        {{outlet}}
+     </script>
+
+    <script type="text/x-handlebars" id="index">
+        <p>
+            Click on the button below to send a message to all clients.
+            Enter your message into the message box to the right of the button
+         </p>
+
+        <div>
+            <button {{action 'messageButtonClick'}} >
+                Send Message to clients
+            </button>
+            {{input type="text" value=clientMessage}}
+            <br/>
+            <br/>
+            <div id="messageBox">
+                {{clientMessage}}
+            </div>
+        </div>
+    </script>
+
+    <script src="js/libs/jquery-1.10.2.js"></script>
+    <script src="js/libs/handlebars-1.1.2.js"></script>
+    <script src="js/libs/ember-1.5.1.js"></script>
+
+    <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+    <script src="js/adminApp.js"></script>
+    <!-- to activate the test runner, add the "?test" query string parameter -->
+    <script src="tests/runner.js"></script>
+</body>
+</html>
