@@ -13,13 +13,32 @@
   </script>
 
   <script type="text/x-handlebars" id="index">
-        <p>
-            <h3>All messages received from the Admin will show up in the placeholder below</h3>
-         </p>
+        <div id="leftPanel">
+            <p>
+                <h3>All messages received from the Admin will show up in the placeholder below</h3>
+            </p>
 
-         <div id="messageBox">
-            {{adminMessage}}
+            <div id="messageBox">
+                {{adminMessage}}
+            </div>
          </div>
+
+         <div id="rightPanel">
+            <h3>Zombie Apocalypse chatbox</h3>
+            <div class="chatBox">
+                <div class="chatMsg" id="chatMsgBox">
+                </div>
+                <hr/>
+                <div class="sendChatMsg">
+                    <button {{action 'chatButtonClick'}} >
+                        Send Message to clients
+                    </button>
+                    <span>
+                        {{input type="text" value=chatBox}}
+                    </span>
+                </div>
+            </div>
+        </div>
     </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>

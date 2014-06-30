@@ -13,21 +13,41 @@
      </script>
 
     <script type="text/x-handlebars" id="index">
-        <p>
-            Click on the button below to send a message to all clients.
-            Enter your message into the message box to the right of the button
-         </p>
+        <div id="leftPanel">
+            <p>
+                Click on the button below to send a message to all clients.
+                Enter your message into the message box to the right of the button
+             </p>
 
-        <div>
-            <button {{action 'messageButtonClick'}} >
-                Send Message to clients
-            </button>
-            {{input type="text" value=clientMessage}}
-            <br/>
-            <br/>
-            <div id="messageBox">
-                {{clientMessage}}
+            <div>
+                <button {{action 'messageButtonClick'}} >
+                    Send Message to clients
+                </button>
+                {{input type="text" value=clientMessage size="80"}}
+                <br/>
+                <br/>
+                <div id="messageBox">
+                    {{clientMessage}}
+                </div>
             </div>
+        </div>
+
+        <div id="rightPanel">
+            <h3>Zombie Apocalypse chatbox</h3>
+            <div class="chatBox">
+                <div class="chatMsg" id="chatMsgBox">
+                </div>
+                <hr/>
+                <div class="sendChatMsg">
+                    <button {{action 'chatButtonClick'}} >
+                        Send Message to clients
+                    </button>
+                    <span>
+                        {{input type="text" value=chatBox}}
+                    </span>
+                </div>
+            </div>
+
         </div>
     </script>
 

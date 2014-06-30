@@ -52,6 +52,16 @@ io.sockets.on('connection', function(sock){
 			console.log('received message for all clients');
 			io.sockets.emit('allClients', { news: data['message'] });
 		});
+
+        sock.on('chatMsg', function(data){
+            console.log('chat message received ' + data['chatMsg']);
+            sock.broadcast.emit('chatMsg', data);
+        });
+        /*
+        sock.on('chat', function(data){
+            console.log('received message for all clients');
+            io.sockets.broadcast('chatM', { news: data['message'] });
+        });*/
 	}	
 	//send to all sockets but the new one
 		//socket.broadcast.emit('news', { socket: 'initialized' });
