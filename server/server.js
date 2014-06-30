@@ -3,9 +3,10 @@ var restify = require('restify');
 var ecstatic = require('ecstatic');
 
 var port = 8080;
+var socketPort = 10089;
 
 var server = restify.createServer();
-var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(socketPort);
 
 server.pre(ecstatic({ root: __dirname + '/public'}));
 server.use(restify.queryParser());

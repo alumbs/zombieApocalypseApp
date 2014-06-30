@@ -10,7 +10,12 @@ App.IndexController = Ember.Controller.extend({
     chatBox: '',
     initializeSocket: function(context){
         console.log('setup controller called');
-        var socket = io('http://localhost:8080');
+
+        //For use with browsers only
+        var socket = io('http://localhost:10089');
+
+        //For use with mobile devices and browsers
+        //var socket = io.connect('192.168.0.104:10089');
 
         socket.on('news', function (data) {
             console.log(data);
