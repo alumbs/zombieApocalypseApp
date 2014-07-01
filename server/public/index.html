@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Zombie Apocalypse Adminpage</title>
+    <title>Zombie Apocalypse Page</title>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css\style.css" />
 </head>
 <body>
-
     <script type="text/x-handlebars">
         <h1>Welcome to the Admin page - Zombie Apocalypse</h1>
         {{outlet}}
-     </script>
+    </script>
 
-    <script type="text/x-handlebars" id="index">
+    <script type="text/x-handlebars" id="admin">
         <div id="leftPanel">
             <p>
                 Click on the button below to send a message to all clients.
@@ -33,21 +32,40 @@
         </div>
 
         <div id="rightPanel">
-            <h3>Zombie Apocalypse chatbox</h3>
+            {{render "chat"}}
+        </div>
+    </script>
+
+    <script type="text/x-handlebars" id="referee">
+        <div id="leftPanel">
+            <h3>All messages received from the Admin will show up in the placeholder below</h3>
+
+            <div id="messageBox">
+                {{adminMessage}}
+            </div>
+         </div>
+
+         <div id="rightPanel">
+            {{render "chat"}}
+        </div>
+    </script>
+
+    <script type="text/x-handlebars" id="chat">
+        <div id="chat">
+            <h3>Zombie Apocalypse Chat Box</h3>
             <div class="chatBox">
                 <div class="chatMsg" id="chatMsgBox">
                 </div>
                 <hr/>
                 <div class="sendChatMsg">
                     <button {{action 'chatButtonClick'}} >
-                        Send Message to clients
+                    Send Message to clients
                     </button>
                     <span>
                         {{input type="text" value=chatBox}}
                     </span>
                 </div>
             </div>
-
         </div>
     </script>
 
@@ -56,8 +74,6 @@
     <script src="js/libs/ember-1.5.1.js"></script>
 
     <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
-    <script src="js/adminApp.js"></script>
-    <!-- to activate the test runner, add the "?test" query string parameter -->
-    <script src="tests/runner.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

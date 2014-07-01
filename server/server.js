@@ -52,18 +52,26 @@ io.sockets.on('connection', function(sock){
 		{
 			console.log('received message for all clients');
 			io.sockets.emit('allClients', { news: data['message'] });
+            //messageReceived(sock);
 		});
 
         sock.on('chatMsg', function(data){
             console.log('chat message received ' + data['chatMsg']);
             sock.broadcast.emit('chatMsg', data);
+            //messageReceived(sock);
         });
         /*
         sock.on('chat', function(data){
             console.log('received message for all clients');
             io.sockets.broadcast('chatM', { news: data['message'] });
         });*/
-	}	
+	}
+
+    var messageReceived = function(sock)
+    {
+        sock.emit('messageSuccess', {message: "ok"});
+        console.log('message success notification sent to client');
+    }
 	//send to all sockets but the new one
 		//socket.broadcast.emit('news', { socket: 'initialized' });
 		
