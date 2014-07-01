@@ -8,6 +8,10 @@ App.IndexController = Ember.Controller.extend({
     socket: '',
     adminMessage: '',
     chatBox: '',
+    updateChatBox: function(data){
+        var chatMsgBox = document.getElementById("chatMsgBox");
+        chatMsgBox.innerHTML += data + "<br/>" ;
+    },
     initializeSocket: function(context){
         console.log('setup controller called');
 
@@ -23,10 +27,7 @@ App.IndexController = Ember.Controller.extend({
         });
 
         socket.on('chatMsg', function(data){
-            var chatMsg = context.get('chatMessage');
-            //context.set('chatMessage', chatMsg + '\n' + data['chatMsg']);
-            var chatMsgBox = document.getElementById("chatMsgBox");
-            chatMsgBox.innerHTML += data['chatMsg'] + "<br/>" ;
+            context.updateChatBox(data['chatMsg']);
         });
 
         socket.on('allClients', function (data) {
@@ -52,10 +53,7 @@ App.IndexController = Ember.Controller.extend({
 
                 socket.emit('chatMsg', {chatMsg: message});
 
-                var chatMsg = this.get('chatMessage');
-                //this.set('chatMessage', chatMsg + '\n' + message);
-                var chatMsgBox = document.getElementById("chatMsgBox");
-                chatMsgBox.innerHTML += message + "<br/>";
+                this.updateChatBox(message);
             }
         }
     }
