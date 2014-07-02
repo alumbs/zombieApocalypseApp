@@ -60,11 +60,6 @@ io.sockets.on('connection', function(sock){
             sock.broadcast.emit('chatMsg', data);
             //messageReceived(sock);
         });
-        /*
-        sock.on('chat', function(data){
-            console.log('received message for all clients');
-            io.sockets.broadcast('chatM', { news: data['message'] });
-        });*/
 	}
 
     var messageReceived = function(sock)

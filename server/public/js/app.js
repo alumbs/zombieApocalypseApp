@@ -80,7 +80,6 @@ App.ChatController = Ember.Controller.extend({
 
         this.initializeSocket(context);
     },
-    //socket: '',
     chatBox: '',
     updateChatBox: function(data){
         var chatMsgBox = document.getElementById("chatMsgBox");
@@ -89,8 +88,6 @@ App.ChatController = Ember.Controller.extend({
     },
     initializeSocket: function(context)
     {
-        //var socket = createSocket();
-
         socket.on('chatMsg', function(data){
             context.updateChatBox(data['chatMsg']);
         });
@@ -99,9 +96,6 @@ App.ChatController = Ember.Controller.extend({
             //do stuff here
             console.log('Message received from the server');
         });
-
-        //assign the socket created to this
-        //context.set('socket', socket);
     },
     actions: {
         chatButtonClick: function()
