@@ -30,6 +30,9 @@ App.AdminController = Ember.Controller.extend({
             alert('News received: ' + data['news']);
         });
     },
+    clearMessageBox: function(){
+        this.set('clientMessage', '');
+    },
     actions: {
         messageButtonClick: function()
         {
@@ -37,8 +40,9 @@ App.AdminController = Ember.Controller.extend({
             var message = this.get('clientMessage');
             console.log('Button got clicked ' + message);
 
-            //console.log("socket contains " + socket);
             socket.emit('sendMessageToAllClients', {message: message});
+
+            this.clearMessageBox();
         }
     }
 });
@@ -47,7 +51,7 @@ App.RefereeRoute = Ember.Route.extend({
 
 });*/
 
-App.RefereeController = Ember.ObjectController.extend({
+App.RefereeController = Ember.Controller.extend({
     init: function() {
         var context = this;
         this.initializeSocket(context);
@@ -74,7 +78,7 @@ App.ChatRoute = Ember.Route.extend({
 
 });*/
 
-App.ChatController = Ember.Controller.extend({
+App.ChatController = Ember.ObjectController.extend({
     init: function() {
         var context = this;
 
@@ -85,6 +89,9 @@ App.ChatController = Ember.Controller.extend({
         var chatMsgBox = document.getElementById("chatMsgBox");
         chatMsgBox.innerHTML += data + "<br/>" ;
         console.log('update chat box got called');
+    },
+    clearChatBox: function(){
+        this.set('chatBox', '');
     },
     initializeSocket: function(context)
     {
@@ -100,9 +107,7 @@ App.ChatController = Ember.Controller.extend({
     actions: {
         chatButtonClick: function()
         {
-            //var socket = this.get('socket');
             var message = this.get('chatBox');
-            var context = this;
 
             if(message && message.length > 0)
             {
@@ -110,7 +115,9 @@ App.ChatController = Ember.Controller.extend({
 
                 socket.emit('chatMsg', {chatMsg: message});
 
-                context.updateChatBox(message);
+                this.clearChatBox();
+
+                this.updateChatBox(message);
             }
         }
     }
