@@ -85,6 +85,7 @@ App.ChatController = Ember.ObjectController.extend({
         this.initializeSocket(context);
     },
     chatBox: '',
+    username: '',
     updateChatBox: function(data){
         var chatMsgBox = document.getElementById("chatMsgBox");
         chatMsgBox.innerHTML += data + "<br/>" ;
@@ -98,20 +99,24 @@ App.ChatController = Ember.ObjectController.extend({
         socket.on('chatMsg', function(data){
             context.updateChatBox(data['chatMsg']);
         });
-
-        socket.on ('messageSuccess', function (data) {
-            //do stuff here
-            console.log('Message received from the server');
-        });
     },
     actions: {
         chatButtonClick: function()
         {
             var message = this.get('chatBox');
 
-            if(message && message.length > 0)
-            {
-                console.log('Chat button got clicked ' + message);
+            console.log('Chat button got clicked ' + message);
+
+            //validate the username and message
+            var valid;
+            valid = valid = validateAndThrowErr(this.get('username'), "No username specified. Please enter a username");
+
+            if(valid){
+                valid = validateAndThrowErr(message, "The chat message entered is invalid. Please enter a valid message");
+            }
+
+            if(valid){
+                message = this.get('username') + " said: " + message;
 
                 socket.emit('chatMsg', {chatMsg: message});
 
@@ -119,6 +124,7 @@ App.ChatController = Ember.ObjectController.extend({
 
                 this.updateChatBox(message);
             }
+
         }
     }
 });
@@ -133,4 +139,24 @@ function createSocket() {
 
     console.log('Socket created');
     return sock;
+}
+
+function validate(data)
+{
+    if(!data || data == '' || data.length < 1)
+    {
+        throw new Error('Invalid data passed ' + data);
+    }
+}
+
+function validateAndThrowErr(data, errMsg)
+{
+    try{
+        validate(data);
+    }catch(ioe)
+    {
+        alert(errMsg + "\n" + ioe);
+        return false;
+    }
+    return true;
 }
