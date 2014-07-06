@@ -63,7 +63,13 @@ io.sockets.on('connection', function(sock){
 
         sock.on('emergencyMessage', function(data){
             console.log('emergency message received ' + data['emergency']);
-            sock.broadcast.emit('emergencyMessage', data);
+            io.sockets.emit('emergencyMessage', data);
+            //messageReceived(sock);
+        });
+
+        sock.on('emergencyResolved', function(data){
+            console.log('emergency resolved message received ');
+            io.sockets.emit('disableEmergencyMessage', data);
             //messageReceived(sock);
         });
 	}
