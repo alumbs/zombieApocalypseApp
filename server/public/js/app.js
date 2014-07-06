@@ -7,6 +7,8 @@ App = Ember.Application.create({LOG_TRANSITIONS: true});
 var socketPort = 10089;
 var socket = createSocket(); //create socket
 
+showEmergencyDialog();
+
 App.Router.map(function(){
     this.resource('admin');
     this.resource('referee');
@@ -88,7 +90,10 @@ App.EmergencyController = Ember.ObjectController.extend({
     {
         socket.on('emergencyMessage', function (data) {
             console.log(data);
-            alert('emergency msg: ' + data['emergency']);
+            
+//             $( "#dialog" ).dialog( "open" );
+            
+            //alert('emergency msg: ' + data['emergency']);
         });
     },
     actions: {
@@ -155,6 +160,12 @@ App.ChatController = Ember.ObjectController.extend({
 });
 
 /*Global functions*/
+function showEmergencyDialog(){
+    $( "#dialog" ).dialog({
+//         autoOpen: false
+    });
+}
+
 function createSocket() {
     var sock = io('http://localhost:' + socketPort);
 

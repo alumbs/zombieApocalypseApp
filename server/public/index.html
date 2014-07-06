@@ -2,12 +2,19 @@
 <html>
 <head>
     <title>Zombie Apocalypse Page</title>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css\style.css" />
+    <link rel="stylesheet" href="css\style.css" />    
 </head>
-<body>
+<body>   
     <script type="text/x-handlebars">
         <h1>Welcome to the Admin page - Zombie Apocalypse</h1>
+            
+        <div id="dialog" title="Basic dialog">
+            <p>TEST- EMERGENCY - MSG</p>
+        </div>
+                 
         {{outlet}}
     </script>
 
@@ -37,8 +44,7 @@
 
         <div id="emergencyPanel">
         	{{render "Emergency"}}
-        </div>
-
+        </div>    
     </script>
 
     <script type="text/x-handlebars" id="referee">
