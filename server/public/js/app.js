@@ -84,7 +84,6 @@ App.EmergencyController = Ember.ObjectController.extend({
         this.initializeSocket(context);
     },
     emergencyMessage: '',
-    
     initializeSocket: function(context)
     {
         socket.on('emergencyMessage', function (data) {
@@ -92,7 +91,6 @@ App.EmergencyController = Ember.ObjectController.extend({
             alert('emergency msg: ' + data['emergency']);
         });
     },
-
     actions: {
         sendEmergencyMessage: function()
         {

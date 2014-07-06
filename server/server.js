@@ -60,6 +60,12 @@ io.sockets.on('connection', function(sock){
             sock.broadcast.emit('chatMsg', data);
             //messageReceived(sock);
         });
+
+        sock.on('emergencyMessage', function(data){
+            console.log('emergency message received ' + data['emergency']);
+            sock.broadcast.emit('emergencyMessage', data);
+            //messageReceived(sock);
+        });
 	}
 
     var messageReceived = function(sock)
