@@ -34,6 +34,11 @@
         <div id="rightPanel">
             {{render "chat"}}
         </div>
+
+        <div id="emergencyPanel">
+        	{{render "Emergency"}}
+        </div>
+
     </script>
 
     <script type="text/x-handlebars" id="referee">
@@ -47,6 +52,10 @@
 
          <div id="rightPanel">
             {{render "chat"}}
+        </div>
+
+        <div id="emergencyPanel">
+        	{{render "Emergency"}}
         </div>
     </script>
 
@@ -68,6 +77,14 @@
                 </div>
             </div>
         </div>
+    </script>
+
+    <script  type="text/x-handlebars" id="Emergency">
+   		<button {{action 'sendEmergencyMessage'}} >
+			Emergency
+        </button>
+
+   		<p> {{input type="text" value=emergencyMessage}} </p>
     </script>
 
     <script src="js/libs/jquery-1.10.2.js"></script>

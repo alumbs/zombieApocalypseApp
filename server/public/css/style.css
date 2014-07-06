@@ -8,6 +8,13 @@
 	font-weight: bold;
 }
 
+#emergencyPanel
+{
+    clear: both;
+    float: none;
+    color: red;
+}
+
 #messageBox
 {
     min-height: 50px;

@@ -14,7 +14,7 @@ App.Router.map(function(){
 
 /*
 App.AdminRoute = Ember.Route.extend({
-
+    
 //});*/
 
 App.AdminController = Ember.Controller.extend({
@@ -77,6 +77,33 @@ App.RefereeController = Ember.Controller.extend({
 App.ChatRoute = Ember.Route.extend({
 
 });*/
+
+App.EmergencyController = Ember.ObjectController.extend({
+    init: function() {
+        var context = this;
+        this.initializeSocket(context);
+    },
+    emergencyMessage: '',
+    
+    initializeSocket: function(context)
+    {
+        socket.on('emergencyMessage', function (data) {
+            console.log(data);
+            alert('emergency msg: ' + data['emergency']);
+        });
+    },
+
+    actions: {
+        sendEmergencyMessage: function()
+        {
+            var message = this.get('emergencyMessage');
+            console.log('Button got clicked ' + message);
+
+            console.log(socket);
+            socket.emit('emergencyMessage', {emergency: message});
+        }
+    }
+});
 
 App.ChatController = Ember.ObjectController.extend({
     init: function() {
