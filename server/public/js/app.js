@@ -12,11 +12,6 @@ App.Router.map(function(){
     this.resource('referee');
 });
 
-/*
-App.AdminRoute = Ember.Route.extend({
-
-//});*/
-
 App.AdminController = Ember.Controller.extend({
     init: function() {
         var context = this;
@@ -28,6 +23,24 @@ App.AdminController = Ember.Controller.extend({
         socket.on('news', function (data) {
             console.log(data['news']);
             alert('News received: ' + data['news']);
+        });
+
+        socket.on('emergencyMessage', function (data) {
+            console.log("Data is: " + data['emergency']);
+
+            var messageFromServer = data['emergency'];
+
+            $('<div> ' +
+                '<div id="emergencyMessageBox">EMERGENCY!! STOP THE GAME!! ' +
+                    '<br/> ' +
+                    messageFromServer + '<br/>' +
+                    '<button id="btnEmergencyResolved" onclick="emergencyResolved()">' +
+                        'Emergency Resolved' +
+                    '</button> ' +
+                '</div> ' +
+            '</div>').prependTo('body').attr('id', 'overlay');
+
+            $("#container").css("display", "none");
         });
     },
     clearMessageBox: function(){
@@ -46,37 +59,84 @@ App.AdminController = Ember.Controller.extend({
         }
     }
 });
-/*
-App.RefereeRoute = Ember.Route.extend({
-
-});*/
 
 App.RefereeController = Ember.Controller.extend({
     init: function() {
         var context = this;
         this.initializeSocket(context);
     },
-    adminMessage: '',
+    updateMessageBox: function(data){
+        var chatMsgBox = document.getElementById("messageBox");
+
+        if(chatMsgBox.innerText == "Messages from the admin get placed here")
+        {
+            chatMsgBox.innerText = "";
+        }
+
+        chatMsgBox.innerHTML += data + "<br/>" ;
+        console.log('update message box got called');
+    },
     initializeSocket: function(context)
     {
+        socket.on('emergencyMessage', function (data) {
+            console.log(data['emergency']);
+
+            // Declare this variable in the same scope as the ajax complete function
+            $('<div> <div id="emergencyMessageBox">EMERGENCY!! STOP THE GAME!! <br/> ' +
+                data['emergency'] +
+                '</div> </div>').prependTo('body').attr('id', 'overlay');
+
+            $("#container").css("display", "none");
+        });
+
         socket.on('news', function (data) {
             console.log(data);
             alert('News received: ' + data['news']);
         });
 
         socket.on('allClients', function (data) {
+            context.updateMessageBox(data['news']);
 
-            context.set('adminMessage', data['news']);
             alert(data['news']);
         });
 
-        context.set('adminMessage', "Messages from the admin get placed here");
+        socket.on('disableEmergencyMessage', function (data) {
+            alert("EMERGENCY RESOLVED");
+            $("#overlay").remove();
+            $("#container").css("display", "block");
+        });
     }
 });
-/*
-App.ChatRoute = Ember.Route.extend({
 
-});*/
+App.EmergencyController = Ember.ObjectController.extend({
+    init: function() {
+        var context = this;
+        this.initializeSocket(context);
+    },
+    emergencyMessage: '',
+    initializeSocket: function(context)
+    {
+        socket.on('disableEmergencyMessage', function (data) {
+            alert("EMERGENCY RESOLVED");
+            $("#overlay").remove();
+            $("#container").css("display", "block");
+        });
+    },
+    actions: {
+        sendEmergencyMessage: function()
+        {
+            var message = this.get('emergencyMessage');
+            var valid = validateAndThrowErrMessage(message, "ENTER A VALID ERROR MESSAGE!! DO NOT PLAY WITH THIS BUTTON");
+
+            if(valid)
+            {
+                console.log('Emergency Button got clicked ' + message);
+
+                socket.emit('emergencyMessage', {emergency: message});
+            }
+        }
+    }
+});
 
 App.ChatController = Ember.ObjectController.extend({
     init: function() {
@@ -109,10 +169,10 @@ App.ChatController = Ember.ObjectController.extend({
 
             //validate the username and message
             var valid;
-            valid = valid = validateAndThrowErr(this.get('username'), "No username specified. Please enter a username");
+            valid = validateAndThrowErrMessage(this.get('username'), "No username specified. Please enter a username");
 
             if(valid){
-                valid = validateAndThrowErr(message, "The chat message entered is invalid. Please enter a valid message");
+                valid = validateAndThrowErrMessage(message, "The chat message entered is invalid. Please enter a valid message");
             }
 
             if(valid){
@@ -129,7 +189,14 @@ App.ChatController = Ember.ObjectController.extend({
     }
 });
 
-/*Global functions*/
+function emergencyResolved()
+{
+    $(document).ready(function(){
+        console.log("Resolve emergency button clicked");
+        socket.emit('emergencyResolved', {msg: ""});
+    });
+}
+
 function createSocket() {
     var sock = io('http://localhost:' + socketPort);
 
@@ -149,7 +216,7 @@ function validate(data)
     }
 }
 
-function validateAndThrowErr(data, errMsg)
+function validateAndThrowErrMessage(data, errMsg)
 {
     try{
         validate(data);

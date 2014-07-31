@@ -8,13 +8,27 @@
 	font-weight: bold;
 }
 
+#emergencyPanel
+{
+    /*display: none;*/
+    clear: both;
+    float: none;
+    color: red;
+}
+
+#emergencyResolvedButton
+{
+    display: none;
+}
+
 #messageBox
 {
-    min-height: 50px;
+    height: 100px;
     font-size: 20px;
     border: 5px solid #EE5757;
     border-radius: 5px;
     display: block;
+    overflow: auto;
 }
 
 #leftPanel{
@@ -36,10 +50,33 @@
 
 .chatMsg
 {
-    min-height: 380px;
+    height: 380px;
+    overflow: auto;
 }
 
 .sendChatMsg input
 {
     width: 70%;
+}
+
+/*Emergency css*/
+#emergencyMessageBox
+{
+    text-align: center;
+    overflow: auto;
+}
+
+#btnEmergencyResolved
+{
+    margin: 0 auto;
+}
+
+#overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 1000000;
+    font-size: 50px;
+    color: darkorange;
+    background: rgb(255,255,255);
 }
