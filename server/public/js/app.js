@@ -7,17 +7,10 @@ App = Ember.Application.create({LOG_TRANSITIONS: true});
 var socketPort = 10089;
 var socket = createSocket(); //create socket
 
-//showEmergencyDialog();
-
 App.Router.map(function(){
     this.resource('admin');
     this.resource('referee');
 });
-
-/*
-App.AdminRoute = Ember.Route.extend({
-    
-//});*/
 
 App.AdminController = Ember.Controller.extend({
     init: function() {
@@ -37,17 +30,15 @@ App.AdminController = Ember.Controller.extend({
 
             var messageFromServer = data['emergency'];
 
-            // Declare this variable in the same scope as the ajax complete function
-            overlay =
-                $('<div> ' +
-                    '<div id="emergencyMessageBox">EMERGENCY!! STOP THE GAME!! ' +
-                        '<br/> ' +
-                        messageFromServer + '<br/>' +
-                        '<button id="btnEmergencyResolved" onclick="emergencyResolved()">' +
-                            'Emergency Resolved' +
-                        '</button> ' +
-                    '</div> ' +
-                '</div>').prependTo('body').attr('id', 'overlay');
+            $('<div> ' +
+                '<div id="emergencyMessageBox">EMERGENCY!! STOP THE GAME!! ' +
+                    '<br/> ' +
+                    messageFromServer + '<br/>' +
+                    '<button id="btnEmergencyResolved" onclick="emergencyResolved()">' +
+                        'Emergency Resolved' +
+                    '</button> ' +
+                '</div> ' +
+            '</div>').prependTo('body').attr('id', 'overlay');
 
             $("#container").css("display", "none");
         });
@@ -91,12 +82,11 @@ App.RefereeController = Ember.Controller.extend({
             console.log(data['emergency']);
 
             // Declare this variable in the same scope as the ajax complete function
-            overlay = $('<div> <div id="emergencyMessageBox">EMERGENCY!! STOP THE GAME!! <br/> ' +
+            $('<div> <div id="emergencyMessageBox">EMERGENCY!! STOP THE GAME!! <br/> ' +
                 data['emergency'] +
                 '</div> </div>').prependTo('body').attr('id', 'overlay');
 
             $("#container").css("display", "none");
-            //$("#EmergencyResolvedButton").css("display", "block");
         });
 
         socket.on('news', function (data) {
@@ -110,13 +100,13 @@ App.RefereeController = Ember.Controller.extend({
             alert(data['news']);
         });
 
-        context.set('adminMessage', "Messages from the admin get placed here");
+        socket.on('disableEmergencyMessage', function (data) {
+            alert("EMERGENCY RESOLVED");
+            $("#overlay").remove();
+            $("#container").css("display", "block");
+        });
     }
 });
-/*
-App.ChatRoute = Ember.Route.extend({
-
-});*/
 
 App.EmergencyController = Ember.ObjectController.extend({
     init: function() {
@@ -126,7 +116,6 @@ App.EmergencyController = Ember.ObjectController.extend({
     emergencyMessage: '',
     initializeSocket: function(context)
     {
-        //*****remember to remove the overlay div when the admin disables the emergency thing****
         socket.on('disableEmergencyMessage', function (data) {
             alert("EMERGENCY RESOLVED");
             $("#overlay").remove();
